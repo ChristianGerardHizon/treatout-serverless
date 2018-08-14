@@ -21,21 +21,28 @@ functions:
     handler: places.create
     events:
       - http:
-          path: createPlace
+          path: create
           method: post
           cors: true
-  getPlaces:
+  listPlace:
     handler: places.get
     events:
       - http:
-          path: getPlaces
+          path: places
           method: get
           cors: true
-  getIndvPlace:
-    handler: places.getById
+  getPlace:
+    handler: places.get
     events:
       - http:
-          path: getPlaces/{id}
+          path: places/{id}
+          method: get
+          cors: true
+  deleltePlace:
+    handler: places.delete
+    events:
+      - http:
+          path: places/delete/{id}
           method: get
           cors: true
 resources:

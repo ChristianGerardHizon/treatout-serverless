@@ -4,7 +4,7 @@ const uuid = require('uuid');
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.get = (event, context, callback) => {
+module.exports.list = (event, context, callback) => {
 
 	var params = {
         TableName: 'places',
@@ -29,7 +29,7 @@ module.exports.get = (event, context, callback) => {
 
 } 
 
-module.exports.getById = (event, context, callback) => { 
+module.exports.get = (event, context, callback) => { 
 
 	var params = {
         TableName: 'places',
@@ -41,6 +41,7 @@ module.exports.getById = (event, context, callback) => {
     console.log( 'PARAMS ID', event.pathParameters.id )
 
     dynamoDb.get( params, ( err, data ) => {
+    	console.log( 'RESULT', data )
         if (err) {
             console.log('Scan failed to load data. Error JSON:', JSON.stringify(err, null, 2));
             callback(err);
@@ -49,7 +50,7 @@ module.exports.getById = (event, context, callback) => {
             return callback(null, {
                 statusCode: 200,
                 body: JSON.stringify({
-                    response: data.Items
+                    response: data.Item
                 })
             });
         }
@@ -59,12 +60,6 @@ module.exports.getById = (event, context, callback) => {
 module.exports.create = (event, context, callback) => {
 	const timestamp = new Date().getTime();
 	const data = JSON.parse( event.body );
-
-	// if (typeof data.text !== 'string') { 
-	// 	console.error('Validation Failed') 
-	// 	callback( new Error(`Couldn't create the todo item`))
-	// 	return 
-	// }
 
 	const name = data.name 
 	const address = data.address
@@ -100,8 +95,6 @@ module.exports.create = (event, context, callback) => {
 		}
 		callback( null, response);
 	})
-
-
 };
 
 
