@@ -1,0 +1,42 @@
+service: treatout-api
+provider:
+  name: aws
+  runtime: nodejs6.10
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "*"
+
+functions:
+  hello:
+    handler: handler.hello
+  createPlace:
+    handler: places.create
+    events:
+      - http:
+          path: createPlace
+          method: post
+          cors: true
+  getPlaces:
+    handler: places.get
+    events:
+      - http:
+          path: getPlaces
+          method: get
+          cors: true
+  getIndvPlace:
+    handler: places.getById
+    events:
+      - http:
+          path: getPlaces/{id}
+          method: get
+          cors: true
+resources:
+    - ${file(resources/tables.yml)}

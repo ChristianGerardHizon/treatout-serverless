@@ -1,0 +1,7 @@
+{
+	"name": "treatout-api",
+	"dependencies": {
+		"aws-sdk": "^2.291.0",
+		"uuid": "^3.3.2"
+	}
+}
