@@ -2,6 +2,10 @@
 	"name": "treatout-api",
 	"dependencies": {
 		"aws-sdk": "^2.291.0",
+		"serverless-dynamodb-local": "^0.2.30",
 		"uuid": "^3.3.2"
+	},
+	"devDependencies": {
+		"serverless-offline": "^3.25.7"
 	}
 }

@@ -2,6 +2,7 @@ service: treatout-api
 provider:
   name: aws
   runtime: nodejs6.10
+  region: ap-southeast-1
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,11 +22,11 @@ functions:
     handler: places.create
     events:
       - http:
-          path: create
+          path: places/create
           method: post
           cors: true
   listPlace:
-    handler: places.get
+    handler: places.list
     events:
       - http:
           path: places
@@ -38,6 +39,10 @@ functions:
           path: places/{id}
           method: get
           cors: true
+          request:
+            parameters:
+              paths:
+                id: true
   deleltePlace:
     handler: places.delete
     events:
@@ -45,5 +50,18 @@ functions:
           path: places/delete/{id}
           method: get
           cors: true
+          request:
+            parameters:
+              paths:
+                id: false
 resources:
     - ${file(resources/tables.yml)}
+    
+plugins:
+    - serverless-dynamodb-local
+    - serverless-offline
+
+custom:
+  dynamodb:
+    start:
+      migrate: true
